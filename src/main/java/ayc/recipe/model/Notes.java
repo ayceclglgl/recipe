@@ -1,5 +1,8 @@
 package ayc.recipe.model;
 
+import java.math.BigDecimal;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,7 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class Notes {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -18,7 +27,6 @@ public class Notes {
 	//If we delete the notes, recipe will still in the db.
 	private Recipe recipe;
 	
-	
 	public Notes() {
 		
 	}
@@ -27,20 +35,5 @@ public class Notes {
 		this.notes = recipeNotes;
 		this.recipe = recipe;
 	}
-	
-	
-	public Recipe getRecipe() {
-		return recipe;
-	}
-	public void setRecipe(Recipe recipe) {
-		this.recipe = recipe;
-	}
-	public String getNotes() {
-		return notes;
-	}
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
-	
 
 }

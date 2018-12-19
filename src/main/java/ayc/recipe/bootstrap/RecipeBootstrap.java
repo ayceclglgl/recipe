@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+//import org.springframework.transaction.annotation.Transactional;
 
 import ayc.recipe.model.Category;
 import ayc.recipe.model.Difficulty;
@@ -17,8 +18,10 @@ import ayc.recipe.model.UnitOfMeasure;
 import ayc.recipe.repositories.CategoryRepository;
 import ayc.recipe.repositories.RecipeRepository;
 import ayc.recipe.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent>{
 	
 	RecipeRepository recipeRepository;
@@ -103,10 +106,12 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 		recipeList.add(tacos);
 		recipeList.add(guacamole);
 		recipeRepository.saveAll(recipeList);
+		log.debug("Receipes are recorded.");
 		
 	}
 
 	@Override
+	//@Transactional - lazy initialition exception
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		init();
 		

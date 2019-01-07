@@ -5,7 +5,7 @@ import java.util.Set;
 import ayc.recipe.model.Recipe;
 
 
-public interface RecipeServices {
+public interface RecipeService {
 	Set<Recipe> findAllRecipes();
 	
 }

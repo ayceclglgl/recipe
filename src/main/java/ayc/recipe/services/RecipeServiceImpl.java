@@ -11,11 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class RecipeServicesImpl implements RecipeServices{
+public class RecipeServiceImpl implements RecipeService{
 
 	private final RecipeRepository recipeRepository;
 	
-	public RecipeServicesImpl(RecipeRepository recipeRepository) {
+	public RecipeServiceImpl(RecipeRepository recipeRepository) {
 		this.recipeRepository = recipeRepository;
 	}
 	

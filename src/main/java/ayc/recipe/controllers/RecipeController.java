@@ -4,16 +4,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ayc.recipe.services.RecipeServices;
+import ayc.recipe.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
 public class RecipeController {
 
-	RecipeServices recipeServices;
+	RecipeService recipeServices;
 	
-	public RecipeController(RecipeServices recipeServices) {
+	public RecipeController(RecipeService recipeServices) {
 		this.recipeServices = recipeServices;
 	}
 	

@@ -19,7 +19,6 @@ public class CategoryTest {
 	
 	@Test
 	public void getId() {
-		Long val = 4L;
 		assertEquals(category.getId(), null);
 	}
 }

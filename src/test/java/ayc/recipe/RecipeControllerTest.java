@@ -50,7 +50,6 @@ public class RecipeControllerTest {
 	
 	@Test
 	public void getRecipeList() {
-		
 		//given
 		Set<Recipe> setRecipes = new HashSet<>();
 		setRecipes.add(new Recipe());

@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Optional;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +19,6 @@ public class UnitOfMeasureRepositoryIT {
 	
 	@Autowired //we have spring context since @RunWith(SpringRunner.class) so we can autowired
 	UnitOfMeasureRepository uomr;
-	
-	@Before
-	public void setUp() {
-		
-	}
 	
 	@Test
 	public void findByUom() {

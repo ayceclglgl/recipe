@@ -7,5 +7,5 @@ import ayc.recipe.model.Recipe;
 
 public interface RecipeService {
 	Set<Recipe> findAllRecipes();
-	
+	Recipe findById(Long id);
 }

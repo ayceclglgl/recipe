@@ -1,11 +1,15 @@
 package ayc.recipe;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.Before;
@@ -41,8 +45,23 @@ public class RecipeServicesImplTest {
 		Set<Recipe> recipes = receipeService.findAllRecipes();
 		assertEquals(recipes.size(), 1);
 		verify(recipeRepository, times(1)).findAll();
-		
 	}
+
 	
+	@Test
+	public void getRecipeById() {
+		Long id = 1L;
+		Recipe recipe = new Recipe();
+		recipe.setId(id);
+		Optional<Recipe> optionalRecipe = Optional.of(recipe);
+		
+		when(recipeRepository.findById(any())).thenReturn(optionalRecipe);
+		
+		Recipe returnedRecipe = receipeService.findById(id);
+		assertNotNull(returnedRecipe);
+		assertEquals(id, returnedRecipe.getId());
+		verify(recipeRepository).findById(id);
+		verify(recipeRepository, never()).findAll();
+	}
 
 }

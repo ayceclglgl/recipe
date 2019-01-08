@@ -70,7 +70,20 @@ public class RecipeControllerTest {
 		verify(m, times(1)).addAttribute(eq("recipes"),argumentCaptor.capture());
 		//verify(m).containsAttribute("recipes"); //not working
 		assertEquals(argumentCaptor.getValue().size(), 2);
+	}
+	
+	
+	@Test
+	public void getRecipe() throws Exception {
+		Recipe recipe1 = new Recipe();
+		recipe1.setId(1L);
 		
+		when(recipeServices.findById(any())).thenReturn(recipe1);
+		
+		MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+		mockMvc.perform(get("/recipe/1"))
+		.andExpect(status().isOk())	
+		.andExpect(view().name("recipe/show"));
 		
 	}
 

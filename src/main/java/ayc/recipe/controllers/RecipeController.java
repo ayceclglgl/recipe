@@ -2,9 +2,12 @@ package ayc.recipe.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ayc.recipe.commands.RecipeCommand;
 import ayc.recipe.services.RecipeService;
 
 
@@ -23,10 +26,28 @@ public class RecipeController {
 		return "recipe/recipe";
 	}
 	
-	@RequestMapping(value="/recipe/{id}")
-	public String getRecipe(Model m, @PathVariable("id") long id) {
+	@RequestMapping(value="/recipe/{id}/show")
+	public String showById(@PathVariable("id") long id, Model m) {
 		m.addAttribute("recipe", recipeServices.findById(id));
 		return "recipe/show";
-		
+	}
+	
+	@RequestMapping(value="/recipe/new")
+	public String newRecipe(Model m) {
+		m.addAttribute("recipe", new RecipeCommand());
+		return "recipe/recipeform";
+	}
+	
+	@RequestMapping(value="/recipe/{id}/update")
+	public String updateRecipe(@PathVariable("id") long id, Model m) {
+		m.addAttribute("recipe", recipeServices.findCommandById(id));
+		return "recipe/recipeform";
+	}
+	
+	@PostMapping
+	@RequestMapping(value="/recipe")
+	public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand recipeCommand) {
+		RecipeCommand savedCommand = recipeServices.saveRecipeCommand(recipeCommand);
+		return "redirect:/recipe/" + savedCommand.getId() + "/show";
 	}
 }

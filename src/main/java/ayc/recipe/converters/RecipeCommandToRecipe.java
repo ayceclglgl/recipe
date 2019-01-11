@@ -44,8 +44,8 @@ public class RecipeCommandToRecipe implements Converter<RecipeCommand, Recipe>{
 			source.getCategories().forEach(cat -> recipe.getCategories().add(categoryConveter.convert(cat)));
 		}
 		
-		if(source.getIngrident() != null && source.getIngrident().size() > 0) {
-			source.getIngrident().forEach(ing -> recipe.getIngrident().add(ingredientConverter.convert(ing)));
+		if(source.getIngredient() != null && source.getIngredient().size() > 0) {
+			source.getIngredient().forEach(ing -> recipe.getIngrident().add(ingredientConverter.convert(ing)));
 		}
 		
 		if(source.getNotes() != null) {

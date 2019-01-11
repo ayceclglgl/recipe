@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ayc.recipe.commands.RecipeCommand;
 import ayc.recipe.converters.RecipeCommandToRecipe;
@@ -44,6 +45,7 @@ public class RecipeServiceImpl implements RecipeService{
 	}
 
 	@Override
+	@Transactional
 	public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
 		Recipe savedRecipe = recipeRepository.save(recipeCommandToRecipe.convert(recipeCommand));
 		if(savedRecipe.getId() == null) 
@@ -54,6 +56,7 @@ public class RecipeServiceImpl implements RecipeService{
 
 	
 	@Override
+	@Transactional
 	public RecipeCommand findCommandById(Long id) {
 		return	recipeToRecipeCommand.convert(findById(id));
 	}

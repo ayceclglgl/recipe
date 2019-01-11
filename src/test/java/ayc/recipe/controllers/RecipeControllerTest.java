@@ -16,6 +16,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
@@ -53,7 +54,7 @@ public class RecipeControllerTest {
 	}
 	
 	@Test
-	public void getRecipeList() {
+	public void testGetRecipeList() {
 		//given
 		Set<Recipe> setRecipes = new HashSet<>();
 		setRecipes.add(new Recipe());
@@ -78,7 +79,7 @@ public class RecipeControllerTest {
 	
 	
 	@Test
-	public void showById() throws Exception {
+	public void testShowById() throws Exception {
 		Recipe recipe1 = new Recipe();
 		recipe1.setId(1L);
 		
@@ -92,7 +93,7 @@ public class RecipeControllerTest {
 	}
 	
 	@Test
-	public void newRecipe() throws Exception {
+	public void testGetNewRecipeForm() throws Exception {
 		mockMvc.perform(get("/recipe/new"))
 		.andExpect(model().attributeExists("recipe"))
 		.andExpect(view().name("recipe/recipeform"))
@@ -101,7 +102,7 @@ public class RecipeControllerTest {
 
 	
 	@Test
-	public void updateRecipe() throws Exception {
+	public void testUpdateRecipe() throws Exception {
 		Long id = 1L;
 		RecipeCommand recipeCommand = new RecipeCommand();
 		recipeCommand.setId(id);
@@ -116,15 +117,20 @@ public class RecipeControllerTest {
 	
 	
 	@Test
-	public void saveOrUpdateRecipe() throws Exception {
+	public void testPostNewRecipeForm() throws Exception {
 		Long id = 1L;
 		RecipeCommand recipeCommand = new RecipeCommand();
 		recipeCommand.setId(id);
+		recipeCommand.setDescription("test");
 		when(recipeServices.saveRecipeCommand(any())).thenReturn(recipeCommand);
 		
-		mockMvc.perform(post("/recipe"))
+		mockMvc.perform(post("/recipe")
+		.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+		.param("id", "")
+		.param("description", "")
+		)
 		.andExpect(view().name("redirect:/recipe/1/show"))
-		.andExpect(status().isFound());
+		.andExpect(status().is3xxRedirection()); //.andExpect(status().isFound());
 		
 	}
 }

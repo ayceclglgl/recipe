@@ -38,7 +38,7 @@ public class Recipe {
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
     @OneToMany(cascade = CascadeType.ALL, mappedBy="recipe")
-    private Set<Ingredient> ingrident = new HashSet<>();
+    private Set<Ingredient> ingredient = new HashSet<>();
     @ManyToMany
     @JoinTable(name="recipe_category", 
     joinColumns=@JoinColumn(name="recipe_id"),
@@ -116,14 +116,14 @@ public class Recipe {
 	
 	public Recipe addIngredients(Ingredient ingredient) {
 		ingredient.setRecipe(this);
-		this.ingrident.add(ingredient);
+		this.ingredient.add(ingredient);
 		return this;
 	}
-	public Set<Ingredient> getIngrident() {
-		return ingrident;
+	public Set<Ingredient> getIngredient() {
+		return ingredient;
 	}
-	public void setIngrident(Set<Ingredient> ingrident) {
-		this.ingrident = ingrident;
+	public void setIngredient(Set<Ingredient> ingredient) {
+		this.ingredient = ingredient;
 	}
 	public Set<Category> getCategories() {
 		return categories;

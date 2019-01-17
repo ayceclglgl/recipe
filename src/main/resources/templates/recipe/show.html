@@ -78,7 +78,14 @@ th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
                 </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h1 class="panel-title" >Ingredients</h1>
+                    	<div class="row">
+                    	 	<div class="col-md-11 ">
+                        		<h1 class="panel-title" >Ingredients</h1>
+                        	</div>
+                    		<div class="col-md-1">
+                         		<a class="btn btn-default" href="#" th:href="@{'/recipe/' + ${recipe.id} + '/ingredients'}" role="button">View</a>
+                    		</div>
+                    	</div>
                     </div>
                     <div class="panel-body">
                         <div class="row">
@@ -86,8 +93,8 @@ th:href="@{/webjars/bootstrap/4.2.1/css/bootstrap.min.css}">
                                 <ul>
                                     <li th:remove="all">1 Cup of milk</li>
                                     <li th:remove="all">1 Teaspoon of chocolate</li>
-                                    <li th:each="ingrident : ${recipe.ingrident}" 
-                                    th:text="${(ingrident.amount + ' ' + ingrident.uom.uom + ' - ' + ingrident.description)}">1 Teaspoon of Sugar</li>
+                                    <li th:each="ingredient : ${recipe.ingredient}" 
+                                    th:text="${(ingredient.amount + ' ' + ingredient.uom.uom + ' - ' + ingredient.description)}">1 Teaspoon of Sugar</li>
                                 </ul>
                             </div>
                         </div>

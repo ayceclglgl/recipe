@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import ayc.recipe.commands.IngredientCommand;
 import ayc.recipe.model.Ingredient;
-import lombok.Synchronized;
 
 @Component
 public class IngredientCommandToIngredient implements Converter<IngredientCommand, Ingredient>{

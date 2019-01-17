@@ -56,16 +56,16 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 				+ "Wrap warmed tortillas in a tea towel to keep them warm until serving."
 				+ " Assemble the tacos: Slice the chicken into strips. On each tortilla, place a small handful of arugula. Top with chicken slices, sliced avocado, radishes, tomatoes, and onion slices. Drizzle with the thinned sour cream. Serve with lime wedges.";
 		tacos.setDirections(directionsTacos);
-		tacos.getIngrident().add(new Ingredient("ancho chili powder", BigDecimal.valueOf(2) , tbles.get(), tacos));
-		tacos.getIngrident().add(new Ingredient("dried oregano", BigDecimal.valueOf(1) , teaspoon.get(), tacos));
-		tacos.getIngrident().add(new Ingredient("dried cumin", BigDecimal.valueOf(1) , teaspoon.get(), tacos));
-		tacos.getIngrident().add(new Ingredient("sugar", BigDecimal.valueOf(1) , teaspoon.get(), tacos));
-		tacos.getIngrident().add(new Ingredient("salt", BigDecimal.valueOf(1/2) , teaspoon.get(), tacos));
-		tacos.getIngrident().add(new Ingredient("garlic", BigDecimal.valueOf(1) , item.get(), tacos));
-		tacos.getIngrident().add(new Ingredient("grated orange zest", BigDecimal.valueOf(1) , tbles.get(), tacos));
-		tacos.getIngrident().add(new Ingredient("fresh-squeezed orange juice", BigDecimal.valueOf(3) , tbles.get(), tacos));
-		tacos.getIngrident().add(new Ingredient("boneless chicken thighs", BigDecimal.valueOf(3) , tbles.get(), tacos));
-		tacos.getIngrident().add(new Ingredient("olive oil", BigDecimal.valueOf(2) , pounds.get(), tacos));
+		tacos.getIngredient().add(new Ingredient("ancho chili powder", BigDecimal.valueOf(2) , tbles.get(), tacos));
+		tacos.getIngredient().add(new Ingredient("dried oregano", BigDecimal.valueOf(1) , teaspoon.get(), tacos));
+		tacos.getIngredient().add(new Ingredient("dried cumin", BigDecimal.valueOf(1) , teaspoon.get(), tacos));
+		tacos.getIngredient().add(new Ingredient("sugar", BigDecimal.valueOf(1) , teaspoon.get(), tacos));
+		tacos.getIngredient().add(new Ingredient("salt", BigDecimal.valueOf(1/2) , teaspoon.get(), tacos));
+		tacos.getIngredient().add(new Ingredient("garlic", BigDecimal.valueOf(1) , item.get(), tacos));
+		tacos.getIngredient().add(new Ingredient("grated orange zest", BigDecimal.valueOf(1) , tbles.get(), tacos));
+		tacos.getIngredient().add(new Ingredient("fresh-squeezed orange juice", BigDecimal.valueOf(3) , tbles.get(), tacos));
+		tacos.getIngredient().add(new Ingredient("boneless chicken thighs", BigDecimal.valueOf(3) , tbles.get(), tacos));
+		tacos.getIngredient().add(new Ingredient("olive oil", BigDecimal.valueOf(2) , pounds.get(), tacos));
 		String recipeTacosNotes = "Spicy grilled chicken tacos! Quick marinade, then grill. Ready in about 30 minutes. Great for a quick weeknight dinner, backyard cookouts, and tailgate parties";
 		tacos.setNotes(new Notes(recipeTacosNotes, tacos));
 		tacos.setPrepTime(20);

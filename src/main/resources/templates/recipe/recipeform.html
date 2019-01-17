@@ -22,7 +22,6 @@
 
 </head>
 <body>
-<!--/*@thymesVar id="recipe" type="guru.springframework.domain.Recipe"*/-->
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -70,10 +69,11 @@
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>Difficulty:</label>
-                                    <select class="form-control">
-                                        <option>Easy</option>
-                                        <option>Medium</option>
-                                        <option>Hard</option>
+                                    <select class="form-control" th:field="*{difficulty}">
+                                        <option th:each="difficultyValue : ${T(ayc.recipe.model.Difficulty).values()}"
+                                                th:value="${difficultyValue.name()}"
+                                                th:text="${difficultyValue.name()}"
+                                        >value</option>
                                     </select>
                                 </div>
                             </div>
@@ -99,9 +99,10 @@
                                 <div class="col-md-11 ">
                                     <h1 class="panel-title">Ingredients</h1>
                                 </div>
-                                <div class="col-md-1">
-                                    <a class="btn btn-default" href="#" role="button">Edit</a>
-                                </div>
+<!--                                 Close 'Edit' button since updating ingredients are moved to recipeList -> View -> Ingredients View. Just editing ingredients are moved. -->
+<!--                                 <div class="col-md-1"> -->
+<!--                                     <a class="btn btn-default" href="#" role="button">Edit</a> -->
+<!--                                 </div> -->
                             </div>
                         </div>
                         <div class="panel-body">

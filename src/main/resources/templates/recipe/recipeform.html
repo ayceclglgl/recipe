@@ -44,7 +44,7 @@
                                     <label>Categories:</label>
                                 </div>
                                 <div class="col-md-9 form-group">
-                                    <div class="radio">
+                                    <div class="radio" th:remove="all">
                                         <label>
                                             <input type="checkbox" value=""/>
                                             Cat 1
@@ -56,6 +56,9 @@
                                             Cat 2
                                         </label>
                                     </div>
+                                    <ul>
+                                    	<li th:each="category : ${recipe.categories}" th:text="${category.description}">cat three</li>
+                                	</ul>
                                 </div>
                             </div>
                             <div class="row">

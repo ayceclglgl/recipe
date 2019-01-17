@@ -2,6 +2,7 @@ package ayc.recipe.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,13 +21,14 @@ public class RecipeController {
 		this.recipeServices = recipeServices;
 	}
 	
-	@RequestMapping(value="/recipeList")
+	@RequestMapping(value= "/recipeList")
 	public String getRecipeList(Model m) {
 		m.addAttribute("recipes", recipeServices.findAllRecipes());
 		return "recipe/recipe";
 	}
 	
-	@RequestMapping(value="/recipe/{id}/show")
+	@GetMapping("/recipe/{id}/show")
+//	@RequestMapping(value="/recipe/{id}/show")
 	public String showById(@PathVariable("id") long id, Model m) {
 		m.addAttribute("recipe", recipeServices.findById(id));
 		return "recipe/show";
@@ -49,5 +51,13 @@ public class RecipeController {
 	public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand recipeCommand) {
 		RecipeCommand savedCommand = recipeServices.saveRecipeCommand(recipeCommand);
 		return "redirect:/recipe/" + savedCommand.getId() + "/show";
+	}
+	
+	@GetMapping
+	//@DeleteMapping
+	@RequestMapping(value="/recipe/{id}/delete")
+	public String deleteById(@PathVariable("id") long id) {
+		recipeServices.deleteById(id);
+		return "redirect:/recipeList";
 	}
 }

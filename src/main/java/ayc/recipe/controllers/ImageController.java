@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ayc.recipe.commands.RecipeCommand;
-import ayc.recipe.model.Recipe;
 import ayc.recipe.services.ImageService;
 import ayc.recipe.services.RecipeService;
 
@@ -44,7 +43,6 @@ public class ImageController {
 			@RequestParam("imagefile") MultipartFile mfile) {
 		imageService.saveImage(Long.valueOf(id), mfile);
 		return"redirect:/recipe/" + id + "/show";
-		
 	}
 	
 	@GetMapping("recipe/{recipeId}/recipeimage")

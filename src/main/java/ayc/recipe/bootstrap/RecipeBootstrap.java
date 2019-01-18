@@ -60,7 +60,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 		tacos.getIngredient().add(new Ingredient("dried oregano", BigDecimal.valueOf(1) , teaspoon.get(), tacos));
 		tacos.getIngredient().add(new Ingredient("dried cumin", BigDecimal.valueOf(1) , teaspoon.get(), tacos));
 		tacos.getIngredient().add(new Ingredient("sugar", BigDecimal.valueOf(1) , teaspoon.get(), tacos));
-		tacos.getIngredient().add(new Ingredient("salt", BigDecimal.valueOf(1/2) , teaspoon.get(), tacos));
+		tacos.getIngredient().add(new Ingredient("salt", BigDecimal.valueOf(1) , teaspoon.get(), tacos));
 		tacos.getIngredient().add(new Ingredient("garlic", BigDecimal.valueOf(1) , item.get(), tacos));
 		tacos.getIngredient().add(new Ingredient("grated orange zest", BigDecimal.valueOf(1) , tbles.get(), tacos));
 		tacos.getIngredient().add(new Ingredient("fresh-squeezed orange juice", BigDecimal.valueOf(3) , tbles.get(), tacos));
@@ -84,7 +84,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 				+ "Chilling tomatoes hurts their flavor, so if you want to add chopped tomato to your guacamole, add it just before serving";
 		guacamole.setDirections(recipeNotesGuacamole);
 		guacamole.addIngredients(new Ingredient("avocados", BigDecimal.valueOf(2) , item.get())); //!!!
-		guacamole.addIngredients(new Ingredient("Kosher salt", BigDecimal.valueOf(1/2) , teaspoon.get()));
+		guacamole.addIngredients(new Ingredient("Kosher salt", BigDecimal.valueOf(1) , teaspoon.get()));
 		guacamole.addIngredients(new Ingredient("lemon juice", BigDecimal.valueOf(1) , tbles.get()));
 		guacamole.addIngredients(new Ingredient("minced red onion", BigDecimal.valueOf(2) , tbles.get()));
 		guacamole.addIngredients(new Ingredient("serrano chiles", BigDecimal.valueOf(1) , item.get()));
@@ -92,7 +92,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 		guacamole.addIngredients(new Ingredient("cilantro", BigDecimal.valueOf(2) , tbles.get()));
 		guacamole.addIngredients(new Ingredient("black pepper", BigDecimal.valueOf(1) , dash.get()));
 		guacamole.addIngredients(new Ingredient("boneless chicken thighs", BigDecimal.valueOf(3) , tbles.get()));
-		guacamole.addIngredients(new Ingredient("ripe tomato", BigDecimal.valueOf(1/2) , item.get()));
+		guacamole.addIngredients(new Ingredient("ripe tomato", BigDecimal.valueOf(1) , item.get()));
 		String recipeGuacamoleNotes = "Be careful handling chiles if using. Wash your hands thoroughly after handling and do not touch your eyes or the area near your eyes with your hands for several hours.";
 		Notes noteQuacamole = new Notes();
 		noteQuacamole.setNotes(recipeGuacamoleNotes); //!!!!!

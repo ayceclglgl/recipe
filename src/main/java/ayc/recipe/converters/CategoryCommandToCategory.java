@@ -21,6 +21,8 @@ public class CategoryCommandToCategory implements Converter<CategoryCommand, Cat
 		category.setId(source.getId());
 		category.setDescription(source.getDescription());
 		//Recipes??
+		//If we implememt categories like ingredients then, we need to add Recipe object.
+		//For now, it is skipped.
 		return category;
 	}
 

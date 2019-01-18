@@ -20,6 +20,9 @@ public class NotesToNotesCommand implements Converter<Notes, NotesCommand> {
 		final NotesCommand notesCommand = new NotesCommand();
 		notesCommand.setId(source.getId());
 		notesCommand.setNotes(source.getNotes());
+		//Recipe ??
+		//If we implememt notes like ingredients then, we need to add Recipe object.
+		//For now, it is skipped.
 		return notesCommand;
 
 	}

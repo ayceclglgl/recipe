@@ -78,9 +78,9 @@ public class IngredientServiceImpl implements IngredientService{
 			ingredient.setUom(unitOfMeasureRepository.findById(ingredientCommand.getUom().getId())
 					.orElseThrow(() -> new RuntimeException("Uom not found")));
 		} else {
-			// Add new ingredient
-			//we do not have a id value
-			//??? ingredientRepo.save maybe???
+			//Add new ingredient
+			//We do not have a id value
+			//???Maybe creationg a ingredientRepository and its save()???
 			Ingredient ingredient = ingredientCommandToIngredient.convert(ingredientCommand);
 			ingredient.setRecipe(recipeOp.get());
 			recipeOp.get().addIngredients(ingredient);
@@ -93,7 +93,7 @@ public class IngredientServiceImpl implements IngredientService{
 				.findFirst();
 		
 		//if ingredientCommand.getId() == null getSavedIngredient from amount description and uom.
-		//Generally id of ingredientCommand is null because we ingredientCommand is comming from form and we have not save it via ingredientRepo
+		//Generally id of ingredientCommand is null because we have ingredientCommand is coming from the form and we have not save it yet
 		if(!savedIngredientOptional.isPresent()) {
 			savedIngredientOptional = savedRecipe.getIngredient().stream()
 					.filter(rIngs -> rIngs.getAmount().equals(ingredientCommand.getAmount()))
@@ -123,7 +123,7 @@ public class IngredientServiceImpl implements IngredientService{
 					.findFirst();
 			if(ingredient.isPresent()) {
 				recipeOp.get().getIngredient().remove(ingredient.get());
-				ingredient.get().setRecipe(null); // Do not forget !!!!
+				ingredient.get().setRecipe(null); //Do not forget !!!!
 				recipeRepository.save(recipeOp.get());
 			}
 		}

@@ -30,15 +30,14 @@ public class IngredientController {
 
 	/**
 	 * List all ingredients of a recipe. Have view, update and delete links.
-	 * 
+	 * It is like a main page of ingredinets.
 	 * @param recipeId
 	 * @param m
 	 * @return
 	 */
-	@GetMapping
-	@RequestMapping(value = "/recipe/{recipeId}/ingredients")
+	@GetMapping("/recipe/{recipeId}/ingredients")
 	public String listIngredients(@PathVariable("recipeId") long recipeId, Model m) {
-		m.addAttribute("recipe", recipeService.findCommandById(recipeId)); // Burada sadece ingridientleri koyabilirim
+		m.addAttribute("recipe", recipeService.findCommandById(recipeId));// Maybe just putting ingredients instead of recipe ???
 		return "recipe/ingredient/list";
 	}
 
@@ -51,8 +50,7 @@ public class IngredientController {
 	 * @param m
 	 * @return
 	 */
-	@GetMapping
-	@RequestMapping(value = "/recipe/{recipeId}/ingredient/{id}/show")
+	@GetMapping("/recipe/{recipeId}/ingredient/{id}/show")
 	public String showIngredientOfRecipe(@PathVariable("recipeId") long recipeId, @PathVariable("id") long id,
 			Model m) {
 		m.addAttribute("ingredient", ingredientService.findByRecipeIdandIngredientId(recipeId, id));
@@ -68,8 +66,7 @@ public class IngredientController {
 	 * @param m
 	 * @return
 	 */
-	@GetMapping
-	@RequestMapping(value = "/recipe/{recipeId}/ingredient/{id}/delete")
+	@GetMapping("/recipe/{recipeId}/ingredient/{id}/delete")
 	public String deleteIngredientOfRecipe(@PathVariable("recipeId") long recipeId, @PathVariable("id") long id,
 			Model m) {
 		ingredientService.deleteIngredientOfRecipe(recipeId, id);
@@ -78,17 +75,16 @@ public class IngredientController {
 	}
 
 	/**
-	 * It updates the selected ingredient via recipe form. Gets called from
+	 * It updates the selected ingredient via ingredient form. Gets called from
 	 * list.html in ingredient folder
-	 * Not real update process happens here, it collects necessary information and redirect to real update.
+	 * Not real update process happens here, it collects necessary information and redirect to form to update.
 	 * 
 	 * @param recipeId
 	 * @param id
 	 * @param m
 	 * @return
 	 */
-	@GetMapping
-	@RequestMapping(value = "/recipe/{recipeId}/ingredient/{id}/update")
+	@GetMapping("/recipe/{recipeId}/ingredient/{id}/update")
 	public String updateIngredientOfRecipe(@PathVariable("recipeId") long recipeId, @PathVariable("id") long id,
 			Model m) {
 		m.addAttribute("ingredient", ingredientService.findByRecipeIdandIngredientId(recipeId, id));
@@ -97,22 +93,28 @@ public class IngredientController {
 	}
 	
 	/**
-	 * It gets called from ingredientform via Submit button.
+	 * It gets called from ingredient form via Submit button.
 	 * 
 	 * @param recipeId
 	 * @param ingredientCommand
 	 * @return
 	 */
-	@PostMapping
-	@RequestMapping(value = "/recipe/{recipeId}/ingredient")
+	@PostMapping("/recipe/{recipeId}/ingredient")
 	public String saveOrUpdate(@PathVariable("recipeId") long recipeId,
 			@ModelAttribute IngredientCommand ingredientCommand) {
 		IngredientCommand savedCommand = ingredientService.saveIngredientCommand(ingredientCommand);
 		return "redirect:/recipe/" + savedCommand.getRecipeId() + "/ingredient/" + savedCommand.getId() + "/show";
 	}
 	
-	@GetMapping
-	@RequestMapping(value="/recipe/{recipeId}/ingredient/new")
+	/**
+	 * It gets called from list view via New button.
+	 * Adds new ingredient to the recipe.
+	 * 
+	 * @param recipeId
+	 * @param m
+	 * @return
+	 */
+	@GetMapping("/recipe/{recipeId}/ingredient/new")
 	public String newIngredientofRecipe(@PathVariable("recipeId") long recipeId, Model m) {
 		RecipeCommand recipeCommand = recipeService.findCommandById(recipeId);
 

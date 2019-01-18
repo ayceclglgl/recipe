@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import ayc.recipe.commands.RecipeCommand;
 import ayc.recipe.services.RecipeService;
@@ -21,41 +20,66 @@ public class RecipeController {
 		this.recipeServices = recipeServices;
 	}
 	
-	@RequestMapping(value= "/recipeList")
+	/**
+	 * It is like a index(=main) page
+	 * @param m
+	 * @return
+	 */
+	@GetMapping("/recipeList")
 	public String getRecipeList(Model m) {
 		m.addAttribute("recipes", recipeServices.findAllRecipes());
 		return "recipe/recipe";
 	}
 	
+	/**
+	 * It is called from view link in the main recipe page.
+	 * @param id
+	 * @param m
+	 * @return
+	 */
 	@GetMapping("/recipe/{id}/show")
-//	@RequestMapping(value="/recipe/{id}/show")
 	public String showById(@PathVariable("id") long id, Model m) {
 		m.addAttribute("recipe", recipeServices.findById(id));
 		return "recipe/show";
 	}
 	
-	@RequestMapping(value="/recipe/new")
+	@GetMapping("/recipe/new")
 	public String newRecipe(Model m) {
 		m.addAttribute("recipe", new RecipeCommand());
 		return "recipe/recipeform";
 	}
 	
-	@RequestMapping(value="/recipe/{id}/update")
+	/**
+	 * It is called from update link in the main recipe page.
+	 * Redirect to recipeform to perform update.
+	 * @param id
+	 * @param m
+	 * @return
+	 */
+	@GetMapping("/recipe/{id}/update")
 	public String updateRecipe(@PathVariable("id") long id, Model m) {
 		m.addAttribute("recipe", recipeServices.findCommandById(id));
 		return "recipe/recipeform";
 	}
 	
-	@PostMapping
-	@RequestMapping(value="/recipe")
+	/**
+	 * Update or add a new recipe.
+	 * @param recipeCommand
+	 * @return
+	 */
+	@PostMapping("/recipe")
 	public String saveOrUpdateRecipe(@ModelAttribute RecipeCommand recipeCommand) {
 		RecipeCommand savedCommand = recipeServices.saveRecipeCommand(recipeCommand);
 		return "redirect:/recipe/" + savedCommand.getId() + "/show";
 	}
 	
-	@GetMapping
+	/**
+	 * It is called from delete link in the main recipe page.
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/recipe/{id}/delete")
 	//@DeleteMapping
-	@RequestMapping(value="/recipe/{id}/delete")
 	public String deleteById(@PathVariable("id") long id) {
 		recipeServices.deleteById(id);
 		return "redirect:/recipeList";

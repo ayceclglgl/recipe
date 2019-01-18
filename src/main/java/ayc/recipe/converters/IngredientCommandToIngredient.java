@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import ayc.recipe.commands.IngredientCommand;
 import ayc.recipe.model.Ingredient;
+import ayc.recipe.model.Recipe;
 
 @Component
 public class IngredientCommandToIngredient implements Converter<IngredientCommand, Ingredient>{
@@ -27,6 +28,12 @@ public class IngredientCommandToIngredient implements Converter<IngredientComman
 		ingredient.setDescription(source.getDescription());
 		ingredient.setId(source.getId());
 		ingredient.setUom(uomConverter.convert(source.getUom()));
+		if(source.getRecipeId() != null) {
+			Recipe recipe = new Recipe();
+			recipe.setId(source.getRecipeId());
+			ingredient.setRecipe(recipe);
+			recipe.addIngredients(ingredient);
+		}
 		return ingredient;
 	}
 

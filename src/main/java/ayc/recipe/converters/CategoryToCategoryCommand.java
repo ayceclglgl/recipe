@@ -18,6 +18,9 @@ public class CategoryToCategoryCommand implements Converter<Category, CategoryCo
 		if(source == null) return null;
 		
 		final CategoryCommand categoryCommand = new CategoryCommand();
+		//Recipes??
+		//If we implememt categories like ingredients then, we need to add Recipe object.
+		//For now, it is skipped.
 		categoryCommand.setDescription(source.getDescription());
 		categoryCommand.setId(source.getId());
 		return categoryCommand;

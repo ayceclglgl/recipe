@@ -102,6 +102,13 @@ public class RecipeControllerTest {
 		.andExpect(view().name("404error"));
 		
 	}
+	
+	@Test
+	public void testShowByIdTestNumberFormatException() throws Exception {
+		mockMvc.perform(get("/recipe/assdfsdfsd/show"))
+		.andExpect(status().isBadRequest())
+		.andExpect(view().name("400error"));
+	}
 
 	@Test
 	public void testDeleteById() throws Exception {

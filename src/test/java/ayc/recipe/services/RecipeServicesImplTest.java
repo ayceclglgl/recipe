@@ -22,6 +22,7 @@ import org.mockito.MockitoAnnotations;
 import ayc.recipe.commands.RecipeCommand;
 import ayc.recipe.converters.RecipeCommandToRecipe;
 import ayc.recipe.converters.RecipeToRecipeCommand;
+import ayc.recipe.exceptions.NotFoundException;
 import ayc.recipe.model.Recipe;
 import ayc.recipe.repositories.RecipeRepository;
 import ayc.recipe.services.RecipeService;
@@ -74,6 +75,15 @@ public class RecipeServicesImplTest {
 		assertEquals(id, returnedRecipe.getId());
 		verify(recipeRepository).findById(id);
 		verify(recipeRepository, never()).findAll();
+	}
+	
+	@Test(expected = NotFoundException.class)
+	public void getRecipeByIdTestNotFound() {
+		Optional<Recipe> optionalRecipe = Optional.empty();
+		
+		when(recipeRepository.findById(any())).thenReturn(optionalRecipe);
+		
+		Recipe returnedRecipe = recipeService.findById(id);
 	}
 	
 	@Test

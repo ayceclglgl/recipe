@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 
 import ayc.recipe.commands.RecipeCommand;
 import ayc.recipe.controllers.RecipeController;
+import ayc.recipe.exceptions.NotFoundException;
 import ayc.recipe.model.Recipe;
 import ayc.recipe.repositories.RecipeRepository;
 import ayc.recipe.services.RecipeService;
@@ -89,6 +90,16 @@ public class RecipeControllerTest {
 		.andExpect(status().isOk())	
 		.andExpect(view().name("recipe/show"))
 		.andExpect(model().attributeExists("recipe"));
+		
+	}
+	
+	@Test
+	public void testShowByIdTestNotFound() throws Exception {
+		when(recipeServices.findById(any())).thenThrow(NotFoundException.class);
+		
+		mockMvc.perform(get("/recipe/1/show"))
+		.andExpect(status().isNotFound())
+		.andExpect(view().name("404error"));
 		
 	}
 

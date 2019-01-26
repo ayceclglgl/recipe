@@ -1,17 +1,24 @@
 package ayc.recipe.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import ayc.recipe.commands.RecipeCommand;
+import ayc.recipe.exceptions.NotFoundException;
 import ayc.recipe.services.RecipeService;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Controller
+@Slf4j
 public class RecipeController {
 
 	RecipeService recipeServices;
@@ -83,5 +90,16 @@ public class RecipeController {
 	public String deleteById(@PathVariable("id") long id) {
 		recipeServices.deleteById(id);
 		return "redirect:/recipeList";
+	}
+	
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(NotFoundException.class)
+	public ModelAndView handleNotFound(Exception exception) {
+		log.error(exception.getMessage());
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("404error");
+		mv.addObject("exception", exception);
+		return mv;
 	}
 }

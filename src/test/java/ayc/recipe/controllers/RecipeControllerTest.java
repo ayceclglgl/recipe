@@ -177,6 +177,7 @@ public class RecipeControllerTest {
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
 				.param("id", "")
 				.param("description", "")
+				.param("cookTime", "100000000")
 				)
 				.andExpect(view().name("recipe/recipeform"))
 				.andExpect(status().isOk());

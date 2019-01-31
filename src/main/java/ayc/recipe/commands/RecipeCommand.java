@@ -3,6 +3,13 @@ package ayc.recipe.commands;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.URL;
+
 import ayc.recipe.model.Difficulty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,13 +20,31 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RecipeCommand {
 	private Long id;
+	
+	@NotBlank
+	@Size(min=3, max=255)
 	private String description;
-    private Integer prepTime;
+    
+	@Min(1)
+	@Max(200)
+	private Integer prepTime;
+	
+	@Min(1)
+	@Max(250)
     private Integer cookTime;
+	
+	@Min(1)
+	@Max(50)
     private Integer servings;
+	
     private String source;
+    
+    @URL
     private String url;
+    
+    @NotBlank
     private String directions;
+    
     Difficulty difficulty;
     private NotesCommand  notes;
     private Set<IngredientCommand> ingredient = new HashSet<>();

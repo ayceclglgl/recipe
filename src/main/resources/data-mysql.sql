@@ -1,0 +1,1 @@
+insert into unit_of_measure (uom) values ('Mug');

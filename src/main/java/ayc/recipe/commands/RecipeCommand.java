@@ -1,7 +1,7 @@
 package ayc.recipe.commands;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class RecipeCommand {
-	private Long id;
+	private String id;
 	
 	@NotBlank
 	@Size(min=3, max=255)
@@ -47,7 +47,10 @@ public class RecipeCommand {
     
     Difficulty difficulty;
     private NotesCommand  notes;
-    private Set<IngredientCommand> ingredient = new HashSet<>();
-    private Set<CategoryCommand> categories = new HashSet<>();
+    /*Getting error not getting categories[0].. due to newly added part of recipe form.
+    * Thus change from Set to List.
+    */ 
+    private List<IngredientCommand> ingredient = new ArrayList<>(); 
+    private List<CategoryCommand> categories = new ArrayList<>();//
     private Byte[] image;
 }

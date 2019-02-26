@@ -153,6 +153,16 @@
                                         ' - ' + ingredient.getDescription())}">1 Teaspoon of Sugar
                                         </li>
                                     </ul>
+                                    <!-- when updating recipe ingredients and categories are disappeared. Add hidden list for them.-->
+                                    <div th:each="ingredientEach, idx : ${recipe.ingredient}" >
+                                        <input  type="hidden" th:field="*{ingredient[__${idx.index}__].id}" />
+                                        <input  type="hidden" th:field="*{ingredient[__${idx.index}__].description}" />
+                                        <input  type="hidden" th:field="*{ingredient[__${idx.index}__].amount}" />
+                                        <input  type="hidden" th:field="*{ingredient[__${idx.index}__].uom.id}" />
+                                    </div>
+                                    <div th:each="catEach, idx : ${recipe.categories}" >
+                                        <input  type="hidden" th:field="*{categories[__${idx.index}__].id}" />
+                                    </div>
                                 </div>
                             </div>
                         </div>

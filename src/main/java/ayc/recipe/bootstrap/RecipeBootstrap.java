@@ -2,6 +2,7 @@ package ayc.recipe.bootstrap;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.context.ApplicationListener;
@@ -31,7 +32,67 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 		this.categoryRepository = categoryRepository;
 	}
 	
-	public void init() {
+	private void loadCategories(){
+        Category cat1 = new Category();
+        cat1.setDescription("American");
+        categoryRepository.save(cat1);
+
+        Category cat2 = new Category();
+        cat2.setDescription("Italian");
+        categoryRepository.save(cat2);
+
+        Category cat3 = new Category();
+        cat3.setDescription("Mexican");
+        categoryRepository.save(cat3);
+
+        Category cat4 = new Category();
+        cat4.setDescription("Spanish");
+        categoryRepository.save(cat4);
+    }
+
+    private void loadUom(){
+        UnitOfMeasure uom1 = new UnitOfMeasure();
+        uom1.setUom("Teaspoon");
+        uomRepository.save(uom1);
+
+        UnitOfMeasure uom2 = new UnitOfMeasure();
+        uom2.setUom("Tablespoon");
+        uomRepository.save(uom2);
+
+        UnitOfMeasure uom3 = new UnitOfMeasure();
+        uom3.setUom("Cup");
+        uomRepository.save(uom3);
+
+        UnitOfMeasure uom4 = new UnitOfMeasure();
+        uom4.setUom("Pinch");
+        uomRepository.save(uom4);
+
+        UnitOfMeasure uom5 = new UnitOfMeasure();
+        uom5.setUom("Ounce");
+        uomRepository.save(uom5);
+
+        UnitOfMeasure uom6 = new UnitOfMeasure();
+        uom6.setUom("Each");
+        uomRepository.save(uom6);
+
+        UnitOfMeasure uom7 = new UnitOfMeasure();
+        uom7.setUom("Pint");
+        uomRepository.save(uom7);
+
+        UnitOfMeasure uom8 = new UnitOfMeasure();
+        uom8.setUom("Dash");
+        uomRepository.save(uom8);
+        
+        UnitOfMeasure uom9 = new UnitOfMeasure();
+        uom9.setUom("Pounds");
+        uomRepository.save(uom9);
+        
+        UnitOfMeasure uom10 = new UnitOfMeasure();
+        uom10.setUom("Item");
+        uomRepository.save(uom10);
+    }
+    
+    private List<Recipe> getRecipes() {
 		
 		Optional<UnitOfMeasure> tbles = uomRepository.findByUom("Tablespoon");
 		Optional<UnitOfMeasure> teaspoon  = uomRepository.findByUom("Teaspoon");
@@ -102,13 +163,15 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 		
 		recipeList.add(tacos);
 		recipeList.add(guacamole);
-		recipeRepository.saveAll(recipeList);
+		return recipeList;
 		
 	}
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-		init();
+		loadCategories();
+		loadUom();
+		recipeRepository.saveAll(getRecipes());
 		
 	}
 

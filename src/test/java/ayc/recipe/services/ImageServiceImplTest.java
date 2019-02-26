@@ -1,7 +1,7 @@
 package ayc.recipe.services;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,17 +40,17 @@ public class ImageServiceImplTest {
 				"testing.txt", "text/plain", "imageimage".getBytes());
 		
 		Recipe recipe = new Recipe();
-		recipe.setId(1L);
+		recipe.setId("1");
 		
-		when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
+		when(recipeRepository.findById(any())).thenReturn(Optional.of(recipe));
 		
 		ArgumentCaptor<Recipe> argCaptor = ArgumentCaptor.forClass(Recipe.class);
 		
 		//when
-		imageService.saveImage(1L, file);
+		imageService.saveImage("1", file);
 		
 		//then
-		verify(recipeRepository).findById(anyLong());
+		verify(recipeRepository).findById(any());
 		verify(recipeRepository).save(argCaptor.capture());
 		Recipe savedRecipe = argCaptor.getValue();
 		assertEquals(file.getBytes().length, savedRecipe.getImage().length);

@@ -39,7 +39,7 @@ public class RecipeServicesImplTest {
 	RecipeToRecipeCommand recipeToRecipeCommand;
 	
 	
-	Long id = 1L;
+	String id = "1";
 	Recipe recipe;
 	
 	@Before
@@ -116,6 +116,6 @@ public class RecipeServicesImplTest {
 	@Test
 	public void deleteById() {
 		recipeService.deleteById(id);
-		verify(recipeRepository).deleteById(anyLong());
+		verify(recipeRepository).deleteById(any());
 	}
 }

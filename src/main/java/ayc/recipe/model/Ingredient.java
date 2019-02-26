@@ -1,33 +1,25 @@
 package ayc.recipe.model;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = {"recipe"})
 public class Ingredient {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private String id = UUID.randomUUID().toString();
 	private String description;
 	private BigDecimal amount;
-	@ManyToOne
-	private Recipe recipe;
-	@OneToOne(fetch=FetchType.EAGER)//Default value is also eager 
+	
+	@DBRef
 	private UnitOfMeasure uom;
+//	private Recipe recipe;
 
 	public Ingredient() {
 		
@@ -43,7 +35,7 @@ public class Ingredient {
 		this.description = description;
 		this.amount = amount;
 		this.uom = uom;
-		this.recipe = recipe;
+//		this.recipe = recipe;
 	}
 	
 }

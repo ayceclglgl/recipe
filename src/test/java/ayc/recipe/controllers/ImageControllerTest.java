@@ -2,7 +2,6 @@ package ayc.recipe.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -10,7 +9,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,16 +48,16 @@ public class ImageControllerTest {
 	public void testShowImageUploadForm() throws Exception {
 		//given
 		RecipeCommand recipeCommand = new RecipeCommand();
-		recipeCommand.setId(1L);
+		recipeCommand.setId("1");
 		
-		when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+		when(recipeService.findCommandById(any())).thenReturn(recipeCommand);
 		
 		//when
 		mockMvc.perform(get("/recipe/1/image"))
 		.andExpect(status().isOk())
 		.andExpect(model().attributeExists("recipe"));
 		
-		verify(recipeService).findCommandById(anyLong());
+		verify(recipeService).findCommandById(any());
 	}
 
 	
@@ -72,14 +70,14 @@ public class ImageControllerTest {
 		.andExpect(status().is3xxRedirection())
 		.andExpect(header().string("Location", "/recipe/1/show"));
 		
-		verify(imageService).saveImage(anyLong(), any());
+		verify(imageService).saveImage(any(), any());
 	}
 	
 	@Test
 	public void testRenderImage() throws Exception {
 		// given
 		RecipeCommand recipeCommand = new RecipeCommand();
-		recipeCommand.setId(1L);
+		recipeCommand.setId("1");
 		
 		
 		String s = "imageimage";
@@ -90,7 +88,7 @@ public class ImageControllerTest {
 		}
 		recipeCommand.setImage(byteBoxed);
 		
-		when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+		when(recipeService.findCommandById(any())).thenReturn(recipeCommand);
 		
 		//when
 		MockHttpServletResponse response = mockMvc.perform(get("/recipe/1/recipeimage"))
@@ -102,11 +100,5 @@ public class ImageControllerTest {
 		assertEquals(s.getBytes().length, responseBytes.length);
 	}
 	
-	@Test
-	public void testGetImageNumberFormatException() throws Exception {
-		mockMvc.perform(get("/recipe/assdfsdfsd/recipeimage"))
-		.andExpect(status().isBadRequest())
-		.andExpect(view().name("400error"));
-	}
 	
 }

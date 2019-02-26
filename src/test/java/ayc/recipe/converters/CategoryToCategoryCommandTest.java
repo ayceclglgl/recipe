@@ -12,7 +12,7 @@ import ayc.recipe.model.Category;
 
 public class CategoryToCategoryCommandTest {
 	
-	public static final Long ID_VALUE = new Long(1L);
+	public static final String ID_VALUE = "1";
     public static final String DESCRIPTION = "description";
     CategoryToCategoryCommand categoryToCategoryCommand;
     
@@ -35,7 +35,7 @@ public class CategoryToCategoryCommandTest {
     @Test
     public void testConvert() {
     	Category category = new Category();
-    	category.setId(1L);
+    	category.setId("1");
     	category.setDescription("description");
     	
     	CategoryCommand categoryCommand = categoryToCategoryCommand.convert(category);

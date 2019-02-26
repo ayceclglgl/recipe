@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import ayc.recipe.model.Recipe;
 
-public interface RecipeRepository extends CrudRepository<Recipe, Long> {
+public interface RecipeRepository extends CrudRepository<Recipe, String> {
 	public Optional<Recipe> findByDescription(String description);
 }

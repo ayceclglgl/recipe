@@ -32,7 +32,7 @@ public class NotesCommandToNotesTest {
 	@Test
 	public void testConvert() {
 		NotesCommand notesCommand = new NotesCommand();
-		notesCommand.setId(1L);
+		notesCommand.setId("1");
 		notesCommand.setNotes("notes");
 		
 		Notes notes = notesCommandToNotes.convert(notesCommand);

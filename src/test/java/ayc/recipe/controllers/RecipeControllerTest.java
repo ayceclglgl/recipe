@@ -84,7 +84,7 @@ public class RecipeControllerTest {
 	@Test
 	public void testShowById() throws Exception {
 		Recipe recipe1 = new Recipe();
-		recipe1.setId(1L);
+		recipe1.setId("1");
 		
 		when(recipeServices.findById(any())).thenReturn(recipe1);
 		
@@ -105,12 +105,6 @@ public class RecipeControllerTest {
 		
 	}
 	
-	@Test
-	public void testShowByIdTestNumberFormatException() throws Exception {
-		mockMvc.perform(get("/recipe/assdfsdfsd/show"))
-		.andExpect(status().isBadRequest())
-		.andExpect(view().name("400error"));
-	}
 
 	@Test
 	public void testDeleteById() throws Exception {
@@ -118,7 +112,7 @@ public class RecipeControllerTest {
 		.andExpect(view().name("redirect:/recipeList"))
 		.andExpect(status().is3xxRedirection());
 		
-		verify(recipeServices).deleteById(anyLong());
+		verify(recipeServices).deleteById(any());
 	}
 	
 	@Test
@@ -132,7 +126,7 @@ public class RecipeControllerTest {
 	
 	@Test
 	public void testUpdateRecipe() throws Exception {
-		Long id = 1L;
+		String id = "1";
 		RecipeCommand recipeCommand = new RecipeCommand();
 		recipeCommand.setId(id);
 		
@@ -147,7 +141,7 @@ public class RecipeControllerTest {
 	
 	@Test
 	public void testPostNewRecipeFormValid() throws Exception {
-		Long id = 1L;
+		String id = "1";
 		RecipeCommand recipeCommand = new RecipeCommand();
 		recipeCommand.setId(id);
 		recipeCommand.setDescription("test");
@@ -167,7 +161,7 @@ public class RecipeControllerTest {
 	
 	@Test
 	public void testPostNewRecipeFormValidationFail() throws Exception {
-		Long id = 1L;
+		String id = "1";
 		RecipeCommand recipeCommand = new RecipeCommand();
 		recipeCommand.setId(id);
 		

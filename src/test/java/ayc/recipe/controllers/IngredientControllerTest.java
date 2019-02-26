@@ -49,11 +49,11 @@ public class IngredientControllerTest {
 	
 	@Test
 	public void testListIngredients() throws Exception {
-		Long id = 1L;
+		String id = "1";
 		RecipeCommand recipeCommand = new RecipeCommand();
 		recipeCommand.setId(id);
 		
-		when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+		when(recipeService.findCommandById(any())).thenReturn(recipeCommand);
 		
 		
 		mockMvc.perform(get("/recipe/1/ingredients"))
@@ -69,8 +69,8 @@ public class IngredientControllerTest {
 	
 	@Test
 	public void testShowIngredient() throws Exception {
-		Long id = 1L;
-		Long recipeId = 1L;
+		String id = "1";
+		String recipeId = "1";
 		IngredientCommand ic = new IngredientCommand();
 		ic.setId(id);
 		
@@ -89,14 +89,14 @@ public class IngredientControllerTest {
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/recipe/1/ingredients"));
 		
-		verify(ingredientService).deleteIngredientOfRecipe(anyLong(), anyLong());
+		verify(ingredientService).deleteIngredientOfRecipe(any(), any());
 	}
 	
 	
 	@Test
 	public void testUpdateIngredientOfRecipe() throws Exception {
-		Long id = 1L;
-		Long recipeId = 1L;
+		String id = "1";
+		String recipeId = "1";
 		IngredientCommand ic = new IngredientCommand();
 		ic.setId(id);
 		
@@ -114,8 +114,8 @@ public class IngredientControllerTest {
 	public void testSaveOrUpdate() throws Exception {
 		
 		IngredientCommand savedIngredientCommand = new IngredientCommand();
-		savedIngredientCommand.setId(2L);
-		savedIngredientCommand.setRecipeId(1L);
+		savedIngredientCommand.setId("2");
+		savedIngredientCommand.setRecipeId("1");
 		
 		when(ingredientService.saveIngredientCommand(any())).thenReturn(savedIngredientCommand);
 		
@@ -131,7 +131,7 @@ public class IngredientControllerTest {
 	@Test
 	public void testNewIngredient() throws Exception {
 		RecipeCommand recipeCommand = new RecipeCommand();
-		recipeCommand.setId(1L);
+		recipeCommand.setId("1");
 		
 		when(recipeService.findCommandById(any())).thenReturn(recipeCommand);
 		when(uomService.listAllUoms()).thenReturn(new HashSet<>());
@@ -142,7 +142,7 @@ public class IngredientControllerTest {
 		.andExpect(model().attributeExists("uomList"))
 		.andExpect(view().name("recipe/ingredient/ingredientform"));
 		
-		verify(recipeService).findCommandById(anyLong());
+		verify(recipeService).findCommandById(any());
 		
 	}
 	

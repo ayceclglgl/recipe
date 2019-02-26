@@ -8,8 +8,8 @@ import ayc.recipe.model.Recipe;
 
 public interface RecipeService {
 	Set<Recipe> findAllRecipes();
-	Recipe findById(Long id);
+	Recipe findById(String id);
 	RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand);
-	RecipeCommand findCommandById(Long id);
-	void deleteById(Long id);
+	RecipeCommand findCommandById(String id);
+	void deleteById(String id);
 }

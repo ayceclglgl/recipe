@@ -32,7 +32,7 @@ public class UnitOfMeasureCommandToUnitOfMeasureTest {
 	@Test
 	public void testConvert() {
 		UnitOfMeasureCommand uomC = new UnitOfMeasureCommand();
-		uomC.setId(1L);
+		uomC.setId("1");
 		uomC.setUom("Cup");
 		
 		UnitOfMeasure uom = unitOfMeasureCommandToUnitOfMeasure.convert(uomC);

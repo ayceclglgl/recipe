@@ -31,7 +31,7 @@ public class UnitOfMeasureToUnitOfMeasureCommandTest {
 	@Test
 	public void testConvert() {
 		UnitOfMeasure uom = new UnitOfMeasure();
-		uom.setId(1L);
+		uom.setId("1");
 		uom.setUom("Cup");
 		
 		UnitOfMeasureCommand uomC = unitOfMeasureToUnitOfMeasureCommand.convert(uom);

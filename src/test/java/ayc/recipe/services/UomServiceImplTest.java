@@ -38,11 +38,11 @@ public class UomServiceImplTest {
 	@Test
 	public void listAllUoms() {
 		UnitOfMeasure uom = new UnitOfMeasure();
-		uom.setId(1L);
+		uom.setId("1");
 		uom.setUom("Cup");
 		
 		UnitOfMeasure uom2 = new UnitOfMeasure();
-		uom2.setId(2L);
+		uom2.setId("2");
 		uom2.setUom("Item");
 		
 		Set<UnitOfMeasure> uomSet = new HashSet<UnitOfMeasure>();

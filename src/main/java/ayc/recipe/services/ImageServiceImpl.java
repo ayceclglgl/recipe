@@ -24,7 +24,7 @@ public class ImageServiceImpl implements ImageService {
 	
 	@Override
 	@Transactional
-	public void saveImage(Long id, MultipartFile file) {
+	public void saveImage(String id, MultipartFile file) {
 		Optional<Recipe> recipeOptional = recipeRepository.findById(id);
 		
 		if(!recipeOptional.isPresent()) {

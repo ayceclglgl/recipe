@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ayc.recipe.commands.IngredientCommand;
-import ayc.recipe.commands.UnitOfMeasureCommand;
 import ayc.recipe.model.Ingredient;
 import ayc.recipe.model.Recipe;
 import ayc.recipe.model.UnitOfMeasure;
@@ -39,14 +38,14 @@ public class IngredientToIngredientCommandTest {
 	public void testConvert() {
 		//given
 		Ingredient ingredient = new Ingredient();
-		ingredient.setId(2L);
+		ingredient.setId("2");
 		ingredient.setAmount(BigDecimal.valueOf(100));
 		ingredient.setDescription("description");
 		Recipe recipe = new Recipe();
-		recipe.setId(1L);
-		ingredient.setRecipe(recipe);
+		recipe.setId("1");
+//		ingredient.setRecipe(recipe);
 		UnitOfMeasure uom = new UnitOfMeasure();
-		uom.setId(1L);
+		uom.setId("1");
 		ingredient.setUom(uom);
 		
 		//when
@@ -56,7 +55,7 @@ public class IngredientToIngredientCommandTest {
 		assertEquals(ingredient.getId(), ingredientCommand.getId());
 		assertEquals(ingredient.getAmount(), ingredientCommand.getAmount());
 		assertEquals(ingredient.getDescription(), ingredientCommand.getDescription());
-		assertEquals(ingredient.getRecipe().getId(), ingredientCommand.getRecipeId());
+//		assertEquals(ingredient.getRecipe().getId(), ingredientCommand.getRecipeId());
 		assertEquals(ingredient.getUom().getId(), ingredientCommand.getUom().getId());
 		
 	}
@@ -65,12 +64,12 @@ public class IngredientToIngredientCommandTest {
 	public void convertWithNullUOM() throws Exception {
 		// given
 		Ingredient ingredient = new Ingredient();
-		ingredient.setId(2L);
+		ingredient.setId("2");
 		ingredient.setAmount(BigDecimal.valueOf(100));
 		ingredient.setDescription("description");
 		Recipe recipe = new Recipe();
-		recipe.setId(1L);
-		ingredient.setRecipe(recipe);
+		recipe.setId("1");
+//		ingredient.setRecipe(recipe);
 
 		// when
 		IngredientCommand ingredientCommand = ingredientToIngredientCommand.convert(ingredient);
@@ -81,7 +80,7 @@ public class IngredientToIngredientCommandTest {
 		assertEquals(ingredient.getId(), ingredientCommand.getId());
 		assertEquals(ingredient.getAmount(), ingredientCommand.getAmount());
 		assertEquals(ingredient.getDescription(), ingredientCommand.getDescription());
-		assertEquals(ingredient.getRecipe().getId(), ingredientCommand.getRecipeId());
+//		assertEquals(ingredient.getRecipe().getId(), ingredientCommand.getRecipeId());
 	}
 	
 	

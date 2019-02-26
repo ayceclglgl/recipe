@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import ayc.recipe.model.UnitOfMeasure;
 
-public interface UnitOfMeasureRepository extends CrudRepository<UnitOfMeasure, Long> {
+public interface UnitOfMeasureRepository extends CrudRepository<UnitOfMeasure, String> {
 	Optional<UnitOfMeasure> findByUom(String uom);
 }

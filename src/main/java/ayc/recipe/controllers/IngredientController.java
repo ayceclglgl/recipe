@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import ayc.recipe.commands.IngredientCommand;
 import ayc.recipe.commands.RecipeCommand;
@@ -36,7 +35,7 @@ public class IngredientController {
 	 * @return
 	 */
 	@GetMapping("/recipe/{recipeId}/ingredients")
-	public String listIngredients(@PathVariable("recipeId") long recipeId, Model m) {
+	public String listIngredients(@PathVariable("recipeId") String recipeId, Model m) {
 		m.addAttribute("recipe", recipeService.findCommandById(recipeId));// Maybe just putting ingredients instead of recipe ???
 		return "recipe/ingredient/list";
 	}
@@ -51,7 +50,7 @@ public class IngredientController {
 	 * @return
 	 */
 	@GetMapping("/recipe/{recipeId}/ingredient/{id}/show")
-	public String showIngredientOfRecipe(@PathVariable("recipeId") long recipeId, @PathVariable("id") long id,
+	public String showIngredientOfRecipe(@PathVariable("recipeId") String recipeId, @PathVariable("id") String id,
 			Model m) {
 		m.addAttribute("ingredient", ingredientService.findByRecipeIdandIngredientId(recipeId, id));
 		return "recipe/ingredient/show";
@@ -67,7 +66,7 @@ public class IngredientController {
 	 * @return
 	 */
 	@GetMapping("/recipe/{recipeId}/ingredient/{id}/delete")
-	public String deleteIngredientOfRecipe(@PathVariable("recipeId") long recipeId, @PathVariable("id") long id,
+	public String deleteIngredientOfRecipe(@PathVariable("recipeId") String recipeId, @PathVariable("id") String id,
 			Model m) {
 		ingredientService.deleteIngredientOfRecipe(recipeId, id);
 		return "redirect:/recipe/" + recipeId + "/ingredients";
@@ -85,7 +84,7 @@ public class IngredientController {
 	 * @return
 	 */
 	@GetMapping("/recipe/{recipeId}/ingredient/{id}/update")
-	public String updateIngredientOfRecipe(@PathVariable("recipeId") long recipeId, @PathVariable("id") long id,
+	public String updateIngredientOfRecipe(@PathVariable("recipeId") String recipeId, @PathVariable("id") String id,
 			Model m) {
 		m.addAttribute("ingredient", ingredientService.findByRecipeIdandIngredientId(recipeId, id));
 		m.addAttribute("uomList", uomService.listAllUoms());
@@ -115,11 +114,11 @@ public class IngredientController {
 	 * @return
 	 */
 	@GetMapping("/recipe/{recipeId}/ingredient/new")
-	public String newIngredientofRecipe(@PathVariable("recipeId") long recipeId, Model m) {
+	public String newIngredientofRecipe(@PathVariable("recipeId") String recipeId, Model m) {
 		RecipeCommand recipeCommand = recipeService.findCommandById(recipeId);
 
 		IngredientCommand ingredientCommand = new IngredientCommand();
-		ingredientCommand.setRecipeId(recipeCommand.getId());
+//		ingredientCommand.setRecipeId(recipeCommand.getId());
 		ingredientCommand.setUom(new UnitOfMeasureCommand());//init uom against null pointer exception
 		
 		

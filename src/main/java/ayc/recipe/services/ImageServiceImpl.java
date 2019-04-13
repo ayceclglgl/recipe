@@ -1,7 +1,6 @@
 package ayc.recipe.services;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ayc.recipe.model.Recipe;
 import ayc.recipe.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
@@ -23,11 +23,11 @@ public class ImageServiceImpl implements ImageService {
 
 	
 	@Override
-	@Transactional
-	public void saveImage(String id, MultipartFile file) {
-		Optional<Recipe> recipeOptional = recipeRepository.findById(id);
+	public Mono<Void> saveImage(String id, MultipartFile file) {
+		Mono<Recipe> recipeMono = recipeRepository.findById(id);
+		Recipe recipe = recipeMono.block();
 		
-		if(!recipeOptional.isPresent()) {
+		if(recipe == null) {
 			throw new RuntimeException("Recipe is not found while try to saving image");
 		}
 		
@@ -40,10 +40,9 @@ public class ImageServiceImpl implements ImageService {
 				byteArray[index++] = b;
 			}
 			
-			Recipe recipe = recipeOptional.get();
 			recipe.setImage(byteArray);
 			
-			recipeRepository.save(recipe);
+			recipeRepository.save(recipe).block();
 			
 		} catch (IOException e) {
 			log.error("Error while saving image file to recipe", e);
@@ -51,7 +50,7 @@ public class ImageServiceImpl implements ImageService {
 			e.printStackTrace();
 		}
 		
-		
+		return Mono.empty();
 	}
 
 }

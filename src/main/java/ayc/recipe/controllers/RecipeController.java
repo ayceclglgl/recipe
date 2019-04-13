@@ -1,10 +1,13 @@
 package ayc.recipe.controllers;
 
+import java.util.UUID;
+
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +42,7 @@ public class RecipeController {
 	 */
 	@GetMapping("/recipeList")
 	public String getRecipeList(Model m) {
-		m.addAttribute("recipes", recipeServices.findAllRecipes());
+		m.addAttribute("recipes", recipeServices.findAllRecipes().collectList().block());
 		return "recipe/recipe";
 	}
 	
@@ -51,7 +54,7 @@ public class RecipeController {
 	 */
 	@GetMapping("/recipe/{id}/show")
 	public String showById(@PathVariable("id") String id, Model m) {
-		m.addAttribute("recipe", recipeServices.findById(id));
+		m.addAttribute("recipe", recipeServices.findById(id).block());
 		return "recipe/show";
 	}
 	
@@ -70,7 +73,7 @@ public class RecipeController {
 	 */
 	@GetMapping("/recipe/{id}/update")
 	public String updateRecipe(@PathVariable("id") String id, Model m) {
-		m.addAttribute("recipe", recipeServices.findCommandById(id));
+		m.addAttribute("recipe", recipeServices.findCommandById(id).block());
 		return RECIPEFORM_URL;
 	}
 	
@@ -86,8 +89,10 @@ public class RecipeController {
 			
 			return RECIPEFORM_URL;
 		}
-		
-		RecipeCommand savedCommand = recipeServices.saveRecipeCommand(recipeCommand);
+		if(!StringUtils.hasText(recipeCommand.getId())) {
+			recipeCommand.setId(UUID.randomUUID().toString());
+		}
+		RecipeCommand savedCommand = recipeServices.saveRecipeCommand(recipeCommand).block();
 		return "redirect:/recipe/" + savedCommand.getId() + "/show";
 	}
 	
@@ -99,7 +104,7 @@ public class RecipeController {
 	@GetMapping("/recipe/{id}/delete")
 	//@DeleteMapping
 	public String deleteById(@PathVariable("id") String id) {
-		recipeServices.deleteById(id);
+		recipeServices.deleteById(id).block();
 		return "redirect:/recipeList";
 	}
 	

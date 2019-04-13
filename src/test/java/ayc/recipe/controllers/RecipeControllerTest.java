@@ -27,6 +27,8 @@ import ayc.recipe.exceptions.NotFoundException;
 import ayc.recipe.model.Recipe;
 import ayc.recipe.repositories.RecipeRepository;
 import ayc.recipe.services.RecipeService;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public class RecipeControllerTest {
 	
@@ -51,42 +53,19 @@ public class RecipeControllerTest {
 	
 	@Test
 	public void mockMVC() throws Exception {
+		when(recipeServices.findAllRecipes()).thenReturn(Flux.empty());
+		
 		mockMvc.perform(get("/recipeList"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("recipe/recipe"));
 	}
 	
 	@Test
-	public void testGetRecipeList() {
-		//given
-		Set<Recipe> setRecipes = new HashSet<>();
-		setRecipes.add(new Recipe());
-		setRecipes.add(new Recipe());
-		when(recipeServices.findAllRecipes()).thenReturn(setRecipes);
-		
-		ArgumentCaptor<Set<Recipe>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
-		
-		//when
-		String viewName = recipeController.getRecipeList(m);
-		
-		
-		//then		
-		assertEquals(viewName, "recipe/recipe");
-		verify(recipeServices, times(1)).findAllRecipes();
-		//verify(recipeRepository, times(1)).findAll(); //not nested verification
-		//verify(m, times(1)).addAttribute(eq("recipes"), anySet());
-		verify(m, times(1)).addAttribute(eq("recipes"),argumentCaptor.capture());
-		//verify(m).containsAttribute("recipes"); //not working
-		assertEquals(argumentCaptor.getValue().size(), 2);
-	}
-	
-	
-	@Test
 	public void testShowById() throws Exception {
 		Recipe recipe1 = new Recipe();
 		recipe1.setId("1");
 		
-		when(recipeServices.findById(any())).thenReturn(recipe1);
+		when(recipeServices.findById(any())).thenReturn(Mono.just(recipe1));
 		
 		mockMvc.perform(get("/recipe/1/show"))
 		.andExpect(status().isOk())	
@@ -108,11 +87,13 @@ public class RecipeControllerTest {
 
 	@Test
 	public void testDeleteById() throws Exception {
+		when(recipeServices.deleteById(anyString())).thenReturn(Mono.empty());
+		
 		mockMvc.perform(get("/recipe/1/delete"))
 		.andExpect(view().name("redirect:/recipeList"))
 		.andExpect(status().is3xxRedirection());
 		
-		verify(recipeServices).deleteById(any());
+		verify(recipeServices).deleteById(anyString());
 	}
 	
 	@Test
@@ -130,7 +111,7 @@ public class RecipeControllerTest {
 		RecipeCommand recipeCommand = new RecipeCommand();
 		recipeCommand.setId(id);
 		
-		when(recipeServices.findCommandById(id)).thenReturn(recipeCommand);
+		when(recipeServices.findCommandById(id)).thenReturn(Mono.just(recipeCommand));
 		
 		mockMvc.perform(get("/recipe/1/update"))
 		.andExpect(status().isOk())
@@ -146,7 +127,7 @@ public class RecipeControllerTest {
 		recipeCommand.setId(id);
 		recipeCommand.setDescription("test");
 		
-		when(recipeServices.saveRecipeCommand(any())).thenReturn(recipeCommand);
+		when(recipeServices.saveRecipeCommand(any())).thenReturn(Mono.just(recipeCommand));
 		
 		mockMvc.perform(post("/recipe")
 		.contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -165,7 +146,7 @@ public class RecipeControllerTest {
 		RecipeCommand recipeCommand = new RecipeCommand();
 		recipeCommand.setId(id);
 		
-		when(recipeServices.saveRecipeCommand(any())).thenReturn(recipeCommand);
+		when(recipeServices.saveRecipeCommand(any())).thenReturn(Mono.just(recipeCommand));
 		
 		mockMvc.perform(post("/recipe")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED)

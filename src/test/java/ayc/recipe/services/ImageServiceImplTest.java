@@ -2,11 +2,11 @@ package ayc.recipe.services;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +17,7 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import ayc.recipe.model.Recipe;
 import ayc.recipe.repositories.RecipeRepository;
+import reactor.core.publisher.Mono;
 
 public class ImageServiceImplTest {
 
@@ -42,7 +43,8 @@ public class ImageServiceImplTest {
 		Recipe recipe = new Recipe();
 		recipe.setId("1");
 		
-		when(recipeRepository.findById(any())).thenReturn(Optional.of(recipe));
+		when(recipeRepository.findById(anyString())).thenReturn(Mono.just(recipe));
+		when(recipeRepository.save(any())).thenReturn(Mono.just(recipe));
 		
 		ArgumentCaptor<Recipe> argCaptor = ArgumentCaptor.forClass(Recipe.class);
 		
@@ -50,7 +52,7 @@ public class ImageServiceImplTest {
 		imageService.saveImage("1", file);
 		
 		//then
-		verify(recipeRepository).findById(any());
+		verify(recipeRepository).findById(anyString());
 		verify(recipeRepository).save(argCaptor.capture());
 		Recipe savedRecipe = argCaptor.getValue();
 		assertEquals(file.getBytes().length, savedRecipe.getImage().length);

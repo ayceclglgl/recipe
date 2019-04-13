@@ -1,11 +1,10 @@
 package ayc.recipe.repositories;
 
-import java.util.Optional;
-
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
 import ayc.recipe.model.UnitOfMeasure;
+import reactor.core.publisher.Mono;
 
-public interface UnitOfMeasureRepository extends CrudRepository<UnitOfMeasure, String> {
-	Optional<UnitOfMeasure> findByUom(String uom);
+public interface UnitOfMeasureRepository extends ReactiveMongoRepository<UnitOfMeasure, String> {
+	Mono<UnitOfMeasure> findByUom(String uom);
 }

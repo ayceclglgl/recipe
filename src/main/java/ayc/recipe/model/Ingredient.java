@@ -17,7 +17,7 @@ public class Ingredient {
 	private String description;
 	private BigDecimal amount;
 	
-	@DBRef
+//	@DBRef //Support DBRef in Spring Data Mongo Reactive - values come null
 	private UnitOfMeasure uom;
 //	private Recipe recipe;
 

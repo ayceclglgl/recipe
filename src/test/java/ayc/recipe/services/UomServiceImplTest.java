@@ -1,12 +1,10 @@
 package ayc.recipe.services;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +16,7 @@ import ayc.recipe.commands.UnitOfMeasureCommand;
 import ayc.recipe.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import ayc.recipe.model.UnitOfMeasure;
 import ayc.recipe.repositories.UnitOfMeasureRepository;
+import reactor.core.publisher.Flux;
 
 public class UomServiceImplTest {
 
@@ -45,19 +44,15 @@ public class UomServiceImplTest {
 		uom2.setId("2");
 		uom2.setUom("Item");
 		
-		Set<UnitOfMeasure> uomSet = new HashSet<UnitOfMeasure>();
-		uomSet.add(uom);
-		uomSet.add(uom2);
+		Flux<UnitOfMeasure> uomFlux = Flux.just(uom, uom2);
 		
-		when(unitOfMeasureRepository.findAll()).thenReturn(uomSet);
+		when(unitOfMeasureRepository.findAll()).thenReturn(uomFlux);
 		
-		Set<UnitOfMeasureCommand> uomCommandSet = uomService.listAllUoms();
+		Flux<UnitOfMeasureCommand> uomCommandFlux = uomService.listAllUoms();
+		List<UnitOfMeasureCommand> list = uomCommandFlux.collectList().block();
 		
-		assertNotNull(uomCommandSet);
-		assertEquals(uomSet.size(), uomCommandSet.size());
+		assertEquals(2, list.size());
 		verify(unitOfMeasureRepository).findAll();
-		//verify(unitOfMeasureToUnitOfMeasureCommand).convert(uom);
-		
 	}
 
 }

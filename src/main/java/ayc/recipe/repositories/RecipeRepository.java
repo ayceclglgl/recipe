@@ -1,11 +1,10 @@
 package ayc.recipe.repositories;
 
-import java.util.Optional;
-
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
 import ayc.recipe.model.Recipe;
+import reactor.core.publisher.Mono;
 
-public interface RecipeRepository extends CrudRepository<Recipe, String> {
-	public Optional<Recipe> findByDescription(String description);
+public interface RecipeRepository extends ReactiveMongoRepository<Recipe, String>{
+	Mono<Recipe> findByDescription(String description);
 }

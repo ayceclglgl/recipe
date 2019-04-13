@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ayc.recipe.commands.RecipeCommand;
 import ayc.recipe.services.ImageService;
 import ayc.recipe.services.RecipeService;
+import reactor.core.publisher.Mono;
 
 public class ImageControllerTest {
 	
@@ -50,7 +51,7 @@ public class ImageControllerTest {
 		RecipeCommand recipeCommand = new RecipeCommand();
 		recipeCommand.setId("1");
 		
-		when(recipeService.findCommandById(any())).thenReturn(recipeCommand);
+		when(recipeService.findCommandById(any())).thenReturn(Mono.just(recipeCommand));
 		
 		//when
 		mockMvc.perform(get("/recipe/1/image"))
@@ -88,7 +89,7 @@ public class ImageControllerTest {
 		}
 		recipeCommand.setImage(byteBoxed);
 		
-		when(recipeService.findCommandById(any())).thenReturn(recipeCommand);
+		when(recipeService.findCommandById(any())).thenReturn(Mono.just(recipeCommand));
 		
 		//when
 		MockHttpServletResponse response = mockMvc.perform(get("/recipe/1/recipeimage"))

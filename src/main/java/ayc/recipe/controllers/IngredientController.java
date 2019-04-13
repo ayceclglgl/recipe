@@ -36,7 +36,7 @@ public class IngredientController {
 	 */
 	@GetMapping("/recipe/{recipeId}/ingredients")
 	public String listIngredients(@PathVariable("recipeId") String recipeId, Model m) {
-		m.addAttribute("recipe", recipeService.findCommandById(recipeId));// Maybe just putting ingredients instead of recipe ???
+		m.addAttribute("recipe", recipeService.findCommandById(recipeId).block());// Maybe just putting ingredients instead of recipe ???
 		return "recipe/ingredient/list";
 	}
 
@@ -52,7 +52,7 @@ public class IngredientController {
 	@GetMapping("/recipe/{recipeId}/ingredient/{id}/show")
 	public String showIngredientOfRecipe(@PathVariable("recipeId") String recipeId, @PathVariable("id") String id,
 			Model m) {
-		m.addAttribute("ingredient", ingredientService.findByRecipeIdandIngredientId(recipeId, id));
+		m.addAttribute("ingredient", ingredientService.findByRecipeIdandIngredientId(recipeId, id).block());
 		return "recipe/ingredient/show";
 	}
 
@@ -68,7 +68,7 @@ public class IngredientController {
 	@GetMapping("/recipe/{recipeId}/ingredient/{id}/delete")
 	public String deleteIngredientOfRecipe(@PathVariable("recipeId") String recipeId, @PathVariable("id") String id,
 			Model m) {
-		ingredientService.deleteIngredientOfRecipe(recipeId, id);
+		ingredientService.deleteIngredientOfRecipe(recipeId, id).block();
 		return "redirect:/recipe/" + recipeId + "/ingredients";
 
 	}
@@ -86,8 +86,8 @@ public class IngredientController {
 	@GetMapping("/recipe/{recipeId}/ingredient/{id}/update")
 	public String updateIngredientOfRecipe(@PathVariable("recipeId") String recipeId, @PathVariable("id") String id,
 			Model m) {
-		m.addAttribute("ingredient", ingredientService.findByRecipeIdandIngredientId(recipeId, id));
-		m.addAttribute("uomList", uomService.listAllUoms());
+		m.addAttribute("ingredient", ingredientService.findByRecipeIdandIngredientId(recipeId, id).block());
+		m.addAttribute("uomList", uomService.listAllUoms().collectList().block());
 		return "recipe/ingredient/ingredientform";
 	}
 	
@@ -99,9 +99,9 @@ public class IngredientController {
 	 * @return
 	 */
 	@PostMapping("/recipe/{recipeId}/ingredient")
-	public String saveOrUpdate(@PathVariable("recipeId") long recipeId,
+	public String saveOrUpdate(@PathVariable("recipeId") String recipeId,
 			@ModelAttribute IngredientCommand ingredientCommand) {
-		IngredientCommand savedCommand = ingredientService.saveIngredientCommand(ingredientCommand);
+		IngredientCommand savedCommand = ingredientService.saveIngredientCommand(ingredientCommand).block();
 		return "redirect:/recipe/" + savedCommand.getRecipeId() + "/ingredient/" + savedCommand.getId() + "/show";
 	}
 	
@@ -115,15 +115,11 @@ public class IngredientController {
 	 */
 	@GetMapping("/recipe/{recipeId}/ingredient/new")
 	public String newIngredientofRecipe(@PathVariable("recipeId") String recipeId, Model m) {
-		RecipeCommand recipeCommand = recipeService.findCommandById(recipeId);
-
 		IngredientCommand ingredientCommand = new IngredientCommand();
-//		ingredientCommand.setRecipeId(recipeCommand.getId());
 		ingredientCommand.setUom(new UnitOfMeasureCommand());//init uom against null pointer exception
-		
-		
+		//ingredientCommand.setRecipeId(recipeId);
 		m.addAttribute("ingredient", ingredientCommand);
-		m.addAttribute("uomList", uomService.listAllUoms());
+		m.addAttribute("uomList", uomService.listAllUoms().collectList().block());
 		return "recipe/ingredient/ingredientform";
 	}
 	

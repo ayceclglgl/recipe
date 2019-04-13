@@ -1,18 +1,14 @@
 package ayc.recipe.services;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import ayc.recipe.commands.RecipeCommand;
 import ayc.recipe.converters.RecipeCommandToRecipe;
 import ayc.recipe.converters.RecipeToRecipeCommand;
-import ayc.recipe.exceptions.NotFoundException;
 import ayc.recipe.model.Recipe;
 import ayc.recipe.repositories.RecipeRepository;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class RecipeServiceImpl implements RecipeService{
@@ -30,41 +26,41 @@ public class RecipeServiceImpl implements RecipeService{
 	}
 	
 	@Override
-	public Set<Recipe> findAllRecipes() {
-		Set<Recipe> recipeSet = new HashSet<>();
-		recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
-		return recipeSet;
+	public Flux<Recipe> findAllRecipes() {
+		return recipeRepository.findAll();
 	}
 
 	@Override
-	public Recipe findById(String id) {
-		Optional<Recipe> recipe = recipeRepository.findById(id);
-		if(!recipe.isPresent())
-			throw new NotFoundException("Recipe Not Found. Id: " + id);
+	public Mono<Recipe> findById(String id) {
+		return recipeRepository.findById(id);
 		
-		return recipe.get();
-	}
-
-	@Override
-	@Transactional
-	public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
-		Recipe savedRecipe = recipeRepository.save(recipeCommandToRecipe.convert(recipeCommand));
-		if(savedRecipe.getId() == null) 
-			throw new RuntimeException("RecipeCommand is Null");
-		
-		return recipeToRecipeCommand.convert(savedRecipe);
 	}
 
 	
 	@Override
-	@Transactional
-	public RecipeCommand findCommandById(String id) {
-		return	recipeToRecipeCommand.convert(findById(id));
+	public Mono<RecipeCommand> findCommandById(String id) {
+		return recipeRepository.findById(id)
+				.map(recipe -> {
+					RecipeCommand recipeCommand = recipeToRecipeCommand.convert(recipe);
+					
+					recipeCommand.getIngredient().forEach(i -> {
+						i.setRecipeId(recipeCommand.getId());
+					});
+					
+					return recipeCommand;
+				});
 	}
 
 	@Override
-	public void deleteById(String id) {
-		recipeRepository.deleteById(id);
+	public Mono<RecipeCommand> saveRecipeCommand(RecipeCommand recipeCommand) {
+		return recipeRepository.save(recipeCommandToRecipe.convert(recipeCommand))
+				.map(recipeToRecipeCommand::convert);
+	}
+
+	@Override
+	public Mono<Void> deleteById(String id) {
+		recipeRepository.deleteById(id).block();
+		return Mono.empty();
 	}
 
 }

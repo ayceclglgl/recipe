@@ -1,14 +1,12 @@
 package ayc.recipe.services;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.springframework.stereotype.Service;
 
 import ayc.recipe.commands.UnitOfMeasureCommand;
 import ayc.recipe.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import ayc.recipe.model.UnitOfMeasure;
 import ayc.recipe.repositories.UnitOfMeasureRepository;
+import reactor.core.publisher.Flux;
 
 @Service
 public class UomServiceImpl implements UomService{
@@ -22,13 +20,9 @@ public class UomServiceImpl implements UomService{
 		this.unitOfMeasureToUnitOfMeasureCommand = unitOfMeasureToUnitOfMeasureCommand;
 	}
 	@Override
-	public Set<UnitOfMeasureCommand> listAllUoms() {
-		Set<UnitOfMeasureCommand> uomcSet = new HashSet<UnitOfMeasureCommand>();
-		
-		Iterable<UnitOfMeasure> set = unitOfMeasureRepository.findAll();
-		set.forEach(uom -> uomcSet.add(unitOfMeasureToUnitOfMeasureCommand.convert(uom)));
-		
-		return uomcSet;
+	public Flux<UnitOfMeasureCommand> listAllUoms() {
+		Flux<UnitOfMeasure> uomFlux = unitOfMeasureRepository.findAll();
+		return uomFlux.map(unitOfMeasureToUnitOfMeasureCommand::convert);
 	}
 
 }
